@@ -1,0 +1,41 @@
+ValueError                                Traceback (most recent call last)
+Cell In[4], line 5
+      2 credentials = json.load(open("../credentials.json", "r"))
+      3 os.environ['FIREWORKS_API_KEY'] = credentials['fireworks_api_key']
+----> 5 client = Fireworks()
+
+File /opt/anaconda3/envs/maven/lib/python3.12/site-packages/fireworks/client/api_client_v2.py:28, in BaseFireworks.__init__(self, api_key, base_url, timeout, account, extra_headers)
+     19 def __init__(
+     20     self,
+     21     *,
+   (...)
+     26     extra_headers: Optional[Dict[str, str]] = None,
+     27 ):
+---> 28     self._client_v1 = FireworksClientV1(
+     29         api_key=api_key, base_url=base_url, request_timeout=timeout, extra_headers=extra_headers,
+     30     )
+     31     self._image_client_v1 = ImageInference(
+     32         model=None,
+     33         account=account,
+   (...)
+     36         base_url=base_url,
+     37     )
+     39     self.completions = CompletionV2(self._client_v1)
+
+File /opt/anaconda3/envs/maven/lib/python3.12/site-packages/fireworks/client/api_client.py:57, in FireworksClient.__init__(self, request_timeout, api_key, base_url, extra_headers, **kwargs)
+     55 if "request_timeout" in kwargs:
+     56     request_timeout = kwargs["request_timeout"]
+---> 57 self.api_key = api_key or default_api_key()
+     58 if not self.api_key:
+     59     raise AuthenticationError(
+     60         "No API key provided. You can set your API key in code using 'fireworks.client.api_key = <API-KEY>', or you can set the environment variable FIREWORKS_API_KEY=<API-KEY>)."
+     61     )
+
+File /opt/anaconda3/envs/maven/lib/python3.12/site-packages/fireworks/client/api_client.py:23, in default_api_key()
+     21     return fireworks.client.api_key
+     22 else:
+---> 23     raise ValueError(
+     24         "No API key provided. You can set your API key in code using 'fireworks.client.api_key = <API-KEY>', or you can set the environment variable FIREWORKS_API_KEY=<API-KEY>)."
+     25     )
+
+ValueError: No API key provided. You can set your API key in code using 'fireworks.client.api_key = <API-KEY>', or you can set the environment variable FIREWORKS_API_KEY=<API-KEY>).
